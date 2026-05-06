@@ -1,15 +1,5 @@
-﻿using System.Text;
+﻿using SemesterProject.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using SemesterProject.ViewModels;
-
 
 namespace SemesterProject
 {
@@ -29,10 +19,7 @@ namespace SemesterProject
         {
             MainPagePanel.Visibility = Visibility.Collapsed;
             FridgePagePanel.Visibility = Visibility.Collapsed;
-            AddFoodPagePanel.Visibility = Visibility.Collapsed;
-            RemoveFoodPagePanel.Visibility = Visibility.Collapsed;
-            AddMemberPagePanel.Visibility = Visibility.Collapsed;
-            RemoveMemberPagePanel.Visibility = Visibility.Collapsed;
+            MembersPagePanel.Visibility = Visibility.Collapsed;
         }
 
         private void BackToMainPageButton_Click(object sender, RoutedEventArgs e)
@@ -47,32 +34,21 @@ namespace SemesterProject
             FridgePagePanel.Visibility = Visibility.Visible;
         }
 
-        private void ShowAddFoodButton_Click(object sender, RoutedEventArgs e)
+        private void HouseholdMembersButton_Click(object sender, RoutedEventArgs e)
         {
             HideAllPages();
-            AddFoodPagePanel.Visibility = Visibility.Visible;
+            MembersPagePanel.Visibility = Visibility.Visible;
         }
 
-        private void ShowRemoveFoodButton_Click(object sender, RoutedEventArgs e)
-        {
-            HideAllPages();
-            RemoveFoodPagePanel.Visibility = Visibility.Visible;
-        }
-
-        private void ShowAddMemberButton_Click(object sender, RoutedEventArgs e)
-        {
-            HideAllPages();
-            AddMemberPagePanel.Visibility = Visibility.Visible;
-        }
-
-        private void ShowRemoveMemberButton_Click(object sender, RoutedEventArgs e)
-        {
-            HideAllPages();
-            RemoveMemberPagePanel.Visibility = Visibility.Visible;
-        }
         private void AddFoodButton_Click(object sender, RoutedEventArgs e)
         {
             string foodName = FoodNameTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(foodName) || foodName == "Food name")
+            {
+                MessageBox.Show("Please enter a food name.");
+                return;
+            }
 
             if (!int.TryParse(FoodQuantityTextBox.Text, out int quantity) || quantity <= 0)
             {
@@ -92,18 +68,31 @@ namespace SemesterProject
         {
             string foodName = RemoveFoodNameTextBox.Text.Trim();
 
+            if (string.IsNullOrWhiteSpace(foodName) || foodName == "Food name")
+            {
+                MessageBox.Show("Please enter a food name.");
+                return;
+            }
+
             if (!int.TryParse(RemoveFoodQuantityTextBox.Text, out int quantity) || quantity <= 0)
             {
                 MessageBox.Show("Please enter a valid quantity.");
                 return;
             }
 
-            viewModel.RemoveFood(foodName, quantity);
+            bool success = viewModel.RemoveFood(foodName, quantity);
 
             RemoveFoodNameTextBox.Text = "";
             RemoveFoodQuantityTextBox.Text = "";
 
-            MessageBox.Show("Food removed successfully.");
+            if (success)
+            {
+                MessageBox.Show("Food removed successfully.");
+            }
+            else
+            {
+                MessageBox.Show("This food is not in the fridge.");
+            }
         }
 
         private void AddMemberButton_Click(object sender, RoutedEventArgs e)
@@ -111,36 +100,55 @@ namespace SemesterProject
             string memberName = MemberNameTextBox.Text.Trim();
             string favoriteFood = FavoriteFoodTextBox.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(memberName) || string.IsNullOrWhiteSpace(favoriteFood))
+            if (string.IsNullOrWhiteSpace(memberName) || memberName == "Member name")
             {
-                MessageBox.Show("Please enter the member name and favorite food.");
+                MessageBox.Show("Please enter the member name.");
                 return;
             }
 
-            viewModel.AddMember(memberName, favoriteFood);
+            if (string.IsNullOrWhiteSpace(favoriteFood) || favoriteFood == "Favorite food")
+            {
+                MessageBox.Show("Please enter the favorite food.");
+                return;
+            }
+
+            bool success = viewModel.AddMember(memberName, favoriteFood);
 
             MemberNameTextBox.Text = "";
             FavoriteFoodTextBox.Text = "";
 
-            MessageBox.Show("Member added successfully.");
+            if (success)
+            {
+                MessageBox.Show("Member added successfully.");
+            }
+            else
+            {
+                MessageBox.Show("This member already exists.");
+            }
         }
 
         private void RemoveMemberButton_Click(object sender, RoutedEventArgs e)
         {
             string memberName = RemoveMemberNameTextBox.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(memberName))
+            if (string.IsNullOrWhiteSpace(memberName) || memberName == "Member name")
             {
                 MessageBox.Show("Please enter the member name.");
                 return;
             }
 
-            viewModel.RemoveMember(memberName);
+            bool success = viewModel.RemoveMember(memberName);
 
             RemoveMemberNameTextBox.Text = "";
 
-            MessageBox.Show("Member removed successfully.");
+            if (success)
+            {
+                MessageBox.Show("Member removed successfully.");
+            }
+            else
+            {
+                MessageBox.Show("This member does not exist.");
+            }
         }
     }
-
 }

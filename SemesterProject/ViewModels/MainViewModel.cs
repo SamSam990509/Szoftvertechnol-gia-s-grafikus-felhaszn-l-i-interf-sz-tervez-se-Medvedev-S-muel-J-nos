@@ -1,16 +1,5 @@
 ﻿using SemesterProject.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-
-using SemesterProject.Models;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -22,7 +11,7 @@ namespace SemesterProject.ViewModels
         public ObservableCollection<FoodItem> FridgeFoods { get; set; }
         public ObservableCollection<HouseholdMember> HouseholdMembers { get; set; }
 
-        private string alertMessage;
+        private string alertMessage = "";
 
         public string AlertMessage
         {
@@ -71,14 +60,14 @@ namespace SemesterProject.ViewModels
             UpdateFavoriteFoodAlerts();
         }
 
-        public void RemoveFood(string foodName, int quantity)
+        public bool RemoveFood(string foodName, int quantity)
         {
             FoodItem existingFood = FridgeFoods.FirstOrDefault(
                 food => food.Name.Equals(foodName, StringComparison.OrdinalIgnoreCase));
 
             if (existingFood == null)
             {
-                return;
+                return false;
             }
 
             existingFood.Quantity -= quantity;
@@ -89,32 +78,39 @@ namespace SemesterProject.ViewModels
             }
 
             UpdateFavoriteFoodAlerts();
+            return true;
         }
 
-        public void AddMember(string memberName, string favoriteFood)
-        {
-            HouseholdMember existingMember = HouseholdMembers.FirstOrDefault(
-                member => member.Name.Equals(memberName, StringComparison.OrdinalIgnoreCase));
-
-            if (existingMember == null)
-            {
-                HouseholdMembers.Add(new HouseholdMember(memberName, favoriteFood));
-            }
-
-            UpdateFavoriteFoodAlerts();
-        }
-
-        public void RemoveMember(string memberName)
+        public bool AddMember(string memberName, string favoriteFood)
         {
             HouseholdMember existingMember = HouseholdMembers.FirstOrDefault(
                 member => member.Name.Equals(memberName, StringComparison.OrdinalIgnoreCase));
 
             if (existingMember != null)
             {
-                HouseholdMembers.Remove(existingMember);
+                return false;
             }
 
+            HouseholdMembers.Add(new HouseholdMember(memberName, favoriteFood));
+
             UpdateFavoriteFoodAlerts();
+            return true;
+        }
+
+        public bool RemoveMember(string memberName)
+        {
+            HouseholdMember existingMember = HouseholdMembers.FirstOrDefault(
+                member => member.Name.Equals(memberName, StringComparison.OrdinalIgnoreCase));
+
+            if (existingMember == null)
+            {
+                return false;
+            }
+
+            HouseholdMembers.Remove(existingMember);
+
+            UpdateFavoriteFoodAlerts();
+            return true;
         }
 
         public void UpdateFavoriteFoodAlerts()
@@ -136,7 +132,7 @@ namespace SemesterProject.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
         {
