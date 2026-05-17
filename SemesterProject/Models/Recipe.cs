@@ -4,38 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace SemesterProject.Models
 {
-    public class FoodItem : INotifyPropertyChanged
+    public class Recipe : INotifyPropertyChanged
     {
-        public string Name { get; set; }
+        private string name;
 
-        private int quantity;
-
-        public int Quantity
+        public string Name
         {
-            get { return quantity; }
+            get { return name; }
             set
             {
-                quantity = value;
-                OnPropertyChanged(nameof(Quantity));
+                name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
 
-        public string StorageLocation { get; set; }
+        public ObservableCollection<RecipeIngredient> Ingredients { get; set; }
 
-        public FoodItem(string name, int quantity, string storageLocation)
+        public Recipe(string name)
         {
             Name = name;
-            Quantity = quantity;
-            StorageLocation = storageLocation;
+            Ingredients = new ObservableCollection<RecipeIngredient>();
         }
 
         public override string ToString()
         {
-            return $"{Name} - Quantity: {Quantity} - Storage: {StorageLocation}";
+            return Name;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

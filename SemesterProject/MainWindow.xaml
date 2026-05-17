@@ -5,323 +5,548 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SemesterProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="502" Width="927">
+        Title="Household Manager" Height="700" Width="1050">
+
     <Grid Background="#F4F1EA">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="67.308"/>
-            <ColumnDefinition Width="182.692"/>
-            <ColumnDefinition Width="54*"/>
-            <ColumnDefinition Width="621*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Left side menu -->
         <Border Grid.Column="0"
-            Background="#2F3E34" Grid.ColumnSpan="2">
+                Background="#2F3E34">
             <StackPanel Margin="15">
 
                 <TextBlock Text="Household&#x0a;Manager"
-                       Foreground="White"
-                       FontSize="26"
-                       FontWeight="Bold"
-                       Margin="0,25,0,35"
-                       TextAlignment="Center"/>
+                           Foreground="White"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Margin="0,25,0,35"
+                           TextAlignment="Center"/>
 
                 <Button Content="Fridge Contents"
-                    Height="50"
-                    Margin="0,8"
-                    FontSize="16"
-                    Background="#A7C957"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    BorderThickness="0"
-                    Click="FridgeContentsButton_Click"/>
+                        Height="50"
+                        Margin="0,8"
+                        FontSize="16"
+                        Background="#A7C957"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Click="FridgeContentsButton_Click"/>
 
                 <Button Content="Household Members"
-                    Height="50"
-                    Margin="0,8"
-                    FontSize="16"
-                    Background="#386641"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    BorderThickness="0"
-                    Click="HouseholdMembersButton_Click"/>
+                        Height="50"
+                        Margin="0,8"
+                        FontSize="16"
+                        Background="#386641"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Click="HouseholdMembersButton_Click"/>
+
+                <Button Content="Recipes"
+                        Height="50"
+                        Margin="0,8"
+                        FontSize="16"
+                        Background="#DDA15E"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Click="RecipesButton_Click"/>
 
             </StackPanel>
         </Border>
 
-        <!-- Right side content -->
-        <Grid Grid.Column="2" Margin="30,30,28,30" Grid.ColumnSpan="2">
+        <Grid Grid.Column="1" Margin="25">
             <Border Background="White"
-                CornerRadius="18"
-                Padding="30"
-                BorderBrush="#DAD7CD"
-                BorderThickness="1">
+                    CornerRadius="18"
+                    Padding="25"
+                    BorderBrush="#DAD7CD"
+                    BorderThickness="1">
 
                 <Grid>
 
                     <!-- Main page -->
-                    <StackPanel x:Name="MainPagePanel"
-                            Visibility="Visible"
-                            VerticalAlignment="Center">
+                    <ScrollViewer x:Name="MainPagePanel"
+                                  Visibility="Visible"
+                                  VerticalScrollBarVisibility="Auto">
 
-                        <TextBlock Text="Welcome to your Household Manager"
-                               FontSize="30"
-                               FontWeight="Bold"
-                               Foreground="#2F3E34"
-                               TextAlignment="Center"
-                               Margin="0,0,0,15"/>
+                        <StackPanel>
 
-                        <TextBlock Text="Manage your fridge contents and household members in one simple application."
-                               FontSize="17"
-                               Foreground="#555555"
-                               TextAlignment="Center"
-                               TextWrapping="Wrap"
-                               Margin="0,0,0,20"/>
-
-                        <Border Background="#FFF3CD"
-                            CornerRadius="10"
-                            Padding="18"
-                            Margin="0,0,0,20">
-                            <StackPanel>
-                                <TextBlock Text="Favorite food alerts"
-                                       FontSize="20"
+                            <TextBlock Text="Welcome to your Household Manager"
+                                       FontSize="30"
                                        FontWeight="Bold"
-                                       Foreground="#7A4F01"
+                                       Foreground="#2F3E34"
                                        TextAlignment="Center"
-                                       Margin="0,0,0,10"/>
+                                       Margin="0,0,0,15"/>
 
-                                <TextBlock Text="{Binding AlertMessage}"
-                                       FontSize="16"
-                                       Foreground="#7A4F01"
+                            <TextBlock Text="Manage your food storage, household members and recipes in one simple application."
+                                       FontSize="17"
+                                       Foreground="#555555"
+                                       TextAlignment="Center"
                                        TextWrapping="Wrap"
-                                       TextAlignment="Center"
-                                       FontWeight="SemiBold"/>
-                            </StackPanel>
-                        </Border>
+                                       Margin="0,0,0,20"/>
 
-                        <TextBlock Text="Choose Fridge Contents or Household Members from the left menu."
-                               FontSize="18"
-                               Foreground="#386641"
-                               FontWeight="SemiBold"
-                               TextAlignment="Center"/>
-                    </StackPanel>
+                            <Border Background="#FFF3CD"
+                                    CornerRadius="10"
+                                    Padding="18"
+                                    Margin="0,0,0,20">
+
+                                <StackPanel>
+                                    <TextBlock Text="Favorite food alerts"
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               Foreground="#7A4F01"
+                                               TextAlignment="Center"
+                                               Margin="0,0,0,10"/>
+
+                                    <TextBlock Text="{Binding AlertMessage}"
+                                               FontSize="16"
+                                               Foreground="#7A4F01"
+                                               TextWrapping="Wrap"
+                                               TextAlignment="Center"
+                                               FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Background="#E9F5DB"
+                                    CornerRadius="10"
+                                    Padding="15"
+                                    Margin="0,0,0,20">
+
+                                <StackPanel>
+                                    <TextBlock Text="Storage usage"
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               Foreground="#2F3E34"
+                                               TextAlignment="Center"
+                                               Margin="0,0,0,10"/>
+
+                                    <TextBlock x:Name="StorageUsageTextBlock"
+                                               FontSize="16"
+                                               Foreground="#2F3E34"
+                                               TextWrapping="Wrap"
+                                               TextAlignment="Center"
+                                               FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock Text="Choose Fridge Contents, Household Members or Recipes from the left menu."
+                                       FontSize="18"
+                                       Foreground="#386641"
+                                       FontWeight="SemiBold"
+                                       TextAlignment="Center"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
 
                     <!-- Fridge page -->
-                    <StackPanel x:Name="FridgePagePanel"
-                            Visibility="Collapsed">
+                    <ScrollViewer x:Name="FridgePagePanel"
+                                  Visibility="Collapsed"
+                                  VerticalScrollBarVisibility="Auto">
 
-                        <Button Content="Back to Main Page"
-                            Width="160"
-                            Height="35"
-                            HorizontalAlignment="Left"
-                            Margin="0,0,0,15"
-                            Background="#DDA15E"
-                            Foreground="White"
-                            FontWeight="Bold"
-                            BorderThickness="0"
-                            Click="BackToMainPageButton_Click"/>
+                        <StackPanel>
 
-                        <TextBlock Text="Fridge Contents"
-                               FontSize="28"
-                               FontWeight="Bold"
-                               Foreground="#2F3E34"
-                               TextAlignment="Center"
-                               Margin="0,0,0,20"/>
+                            <Button Content="Back to Main Page"
+                                    Width="160"
+                                    Height="35"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,0,0,15"
+                                    Background="#DDA15E"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Click="BackToMainPageButton_Click"/>
 
-                        <ListBox ItemsSource="{Binding FridgeFoods}"
-                             FontSize="16"
-                             MinHeight="180"
-                             Margin="0,0,0,20"
-                             BorderBrush="#DAD7CD"
-                             BorderThickness="1"/>
+                            <TextBlock Text="Storage Contents"
+                                       FontSize="28"
+                                       FontWeight="Bold"
+                                       Foreground="#2F3E34"
+                                       TextAlignment="Center"
+                                       Margin="0,0,0,20"/>
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                            <ListBox x:Name="FoodListBox"
+                                     ItemsSource="{Binding FridgeFoods}"
+                                     FontSize="16"
+                                     MinHeight="180"
+                                     Margin="0,0,0,20"
+                                     BorderBrush="#DAD7CD"
+                                     BorderThickness="1"
+                                     SelectionChanged="FoodListBox_SelectionChanged">
 
-                            <!-- Add food box -->
-                            <Border Grid.Column="0"
-                                Background="#F4F1EA"
-                                CornerRadius="12"
-                                Padding="15"
-                                Margin="0,0,10,0">
-                                <StackPanel>
-                                    <TextBlock Text="Add Food"
-                                           FontSize="20"
-                                           FontWeight="Bold"
-                                           Foreground="#386641"
-                                           Margin="0,0,0,10"/>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                            <TextBlock Text=" - Quantity: "/>
+                                            <TextBlock Text="{Binding Quantity}"/>
+                                            <TextBlock Text=" - Storage: "/>
+                                            <TextBlock Text="{Binding StorageLocation}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
 
-                                    <TextBox x:Name="FoodNameTextBox"
-                                         Height="35"
-                                         Margin="0,5"
-                                         FontSize="15"
-                                         Text="Food name"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                                    <TextBox x:Name="FoodQuantityTextBox"
-                                         Height="35"
-                                         Margin="0,5"
-                                         FontSize="15"
-                                         Text="Quantity"/>
+                                <Border Grid.Column="0"
+                                        Background="#F4F1EA"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        Margin="0,0,10,0">
 
-                                    <Button Content="Add Food"
-                                        Height="40"
-                                        Margin="0,10,0,0"
-                                        Background="#6A994E"
-                                        Foreground="White"
-                                        FontWeight="Bold"
-                                        BorderThickness="0"
-                                        Click="AddFoodButton_Click"/>
-                                </StackPanel>
-                            </Border>
+                                    <StackPanel>
+                                        <TextBlock Text="Add Food"
+                                                   FontSize="20"
+                                                   FontWeight="Bold"
+                                                   Foreground="#386641"
+                                                   Margin="0,0,0,10"/>
 
-                            <!-- Remove food box -->
-                            <Border Grid.Column="1"
-                                Background="#F4F1EA"
-                                CornerRadius="12"
-                                Padding="15"
-                                Margin="10,0,0,0">
-                                <StackPanel>
-                                    <TextBlock Text="Remove Food"
-                                           FontSize="20"
-                                           FontWeight="Bold"
-                                           Foreground="#BC4749"
-                                           Margin="0,0,0,10"/>
+                                        <TextBox x:Name="FoodNameTextBox"
+                                                 Height="35"
+                                                 Margin="0,5"
+                                                 FontSize="15"
+                                                 Text="Food name"/>
 
-                                    <TextBox x:Name="RemoveFoodNameTextBox"
-                                         Height="35"
-                                         Margin="0,5"
-                                         FontSize="15"
-                                         Text="Food name"/>
+                                        <TextBox x:Name="FoodQuantityTextBox"
+                                                 Height="35"
+                                                 Margin="0,5"
+                                                 FontSize="15"
+                                                 Text="Quantity"/>
 
-                                    <TextBox x:Name="RemoveFoodQuantityTextBox"
-                                         Height="35"
-                                         Margin="0,5"
-                                         FontSize="15"
-                                         Text="Quantity"/>
+                                        <ComboBox x:Name="StorageLocationComboBox"
+                                                  ItemsSource="{Binding StorageLocations}"
+                                                  Height="35"
+                                                  FontSize="15"
+                                                  Margin="0,5"/>
 
-                                    <Button Content="Remove Food"
-                                        Height="40"
-                                        Margin="0,10,0,0"
-                                        Background="#BC4749"
-                                        Foreground="White"
-                                        FontWeight="Bold"
-                                        BorderThickness="0"
-                                        Click="RemoveFoodButton_Click"/>
-                                </StackPanel>
-                            </Border>
-                        </Grid>
-                    </StackPanel>
+                                        <Button Content="Add Food"
+                                                Height="40"
+                                                Margin="0,10,0,0"
+                                                Background="#6A994E"
+                                                Foreground="White"
+                                                FontWeight="Bold"
+                                                BorderThickness="0"
+                                                Click="AddFoodButton_Click"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Column="1"
+                                        Background="#F4F1EA"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        Margin="10,0,0,0">
+
+                                    <StackPanel>
+                                        <TextBlock Text="Remove Food"
+                                                   FontSize="20"
+                                                   FontWeight="Bold"
+                                                   Foreground="#BC4749"
+                                                   Margin="0,0,0,10"/>
+
+                                        <TextBlock Text="Selected food"
+                                                   FontSize="15"
+                                                   FontWeight="Bold"
+                                                   Foreground="#2F3E34"/>
+
+                                        <TextBox x:Name="RemoveFoodNameTextBox"
+                                                 Height="35"
+                                                 Margin="0,5"
+                                                 FontSize="15"
+                                                 IsReadOnly="True"
+                                                 Text="Click an item from the list"/>
+
+                                        <TextBox x:Name="RemoveFoodQuantityTextBox"
+                                                 Height="35"
+                                                 Margin="0,5"
+                                                 FontSize="15"
+                                                 Text="Quantity to remove"/>
+
+                                        <Button Content="Remove Selected Food"
+                                                Height="40"
+                                                Margin="0,10,0,0"
+                                                Background="#BC4749"
+                                                Foreground="White"
+                                                FontWeight="Bold"
+                                                BorderThickness="0"
+                                                Click="RemoveFoodButton_Click"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                        </StackPanel>
+                    </ScrollViewer>
 
                     <!-- Members page -->
-                    <StackPanel x:Name="MembersPagePanel"
-                            Visibility="Collapsed">
+                    <ScrollViewer x:Name="MembersPagePanel"
+                                  Visibility="Collapsed"
+                                  VerticalScrollBarVisibility="Auto">
 
-                        <Button Content="Back to Main Page"
-                            Width="160"
-                            Height="35"
-                            HorizontalAlignment="Left"
-                            Margin="0,0,0,15"
-                            Background="#DDA15E"
-                            Foreground="White"
-                            FontWeight="Bold"
-                            BorderThickness="0"
-                            Click="BackToMainPageButton_Click"/>
+                        <StackPanel>
 
-                        <TextBlock Text="Household Members"
-                               FontSize="28"
-                               FontWeight="Bold"
-                               Foreground="#2F3E34"
-                               TextAlignment="Center"
-                               Margin="0,0,0,20"/>
+                            <Button Content="Back to Main Page"
+                                    Width="160"
+                                    Height="35"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,0,0,15"
+                                    Background="#DDA15E"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Click="BackToMainPageButton_Click"/>
 
-                        <ListBox ItemsSource="{Binding HouseholdMembers}"
-                             FontSize="16"
-                             MinHeight="180"
-                             Margin="0,0,0,20"
-                             BorderBrush="#DAD7CD"
-                             BorderThickness="1"/>
+                            <TextBlock Text="Household Members"
+                                       FontSize="28"
+                                       FontWeight="Bold"
+                                       Foreground="#2F3E34"
+                                       TextAlignment="Center"
+                                       Margin="0,0,0,20"/>
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                            <ListBox x:Name="MembersListBox"
+                                     ItemsSource="{Binding HouseholdMembers}"
+                                     FontSize="16"
+                                     MinHeight="180"
+                                     Margin="0,0,0,20"
+                                     BorderBrush="#DAD7CD"
+                                     BorderThickness="1"
+                                     SelectionChanged="MembersListBox_SelectionChanged"/>
 
-                            <!-- Add member box -->
-                            <Border Grid.Column="0"
-                                Background="#F4F1EA"
-                                CornerRadius="12"
-                                Padding="15"
-                                Margin="0,0,10,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0"
+                                        Background="#F4F1EA"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        Margin="0,0,10,0">
+
+                                    <StackPanel>
+                                        <TextBlock Text="Add Member"
+                                                   FontSize="20"
+                                                   FontWeight="Bold"
+                                                   Foreground="#386641"
+                                                   Margin="0,0,0,10"/>
+
+                                        <TextBox x:Name="MemberNameTextBox"
+                                                 Height="35"
+                                                 Margin="0,5"
+                                                 FontSize="15"
+                                                 Text="Member name"/>
+
+                                        <TextBox x:Name="FavoriteFoodTextBox"
+                                                 Height="35"
+                                                 Margin="0,5"
+                                                 FontSize="15"
+                                                 Text="Favorite food"/>
+
+                                        <Button Content="Add Member"
+                                                Height="40"
+                                                Margin="0,10,0,0"
+                                                Background="#588157"
+                                                Foreground="White"
+                                                FontWeight="Bold"
+                                                BorderThickness="0"
+                                                Click="AddMemberButton_Click"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Column="1"
+                                        Background="#F4F1EA"
+                                        CornerRadius="12"
+                                        Padding="15"
+                                        Margin="10,0,0,0">
+
+                                    <StackPanel>
+                                        <TextBlock Text="Remove Member"
+                                                   FontSize="20"
+                                                   FontWeight="Bold"
+                                                   Foreground="#9B2226"
+                                                   Margin="0,0,0,10"/>
+
+                                        <TextBlock Text="Selected member"
+                                                   FontSize="15"
+                                                   FontWeight="Bold"
+                                                   Foreground="#2F3E34"/>
+
+                                        <TextBox x:Name="RemoveMemberNameTextBox"
+                                                 Height="35"
+                                                 Margin="0,5"
+                                                 FontSize="15"
+                                                 IsReadOnly="True"
+                                                 Text="Click a member from the list"/>
+
+                                        <Button Content="Remove Selected Member"
+                                                Height="40"
+                                                Margin="0,10,0,0"
+                                                Background="#9B2226"
+                                                Foreground="White"
+                                                FontWeight="Bold"
+                                                BorderThickness="0"
+                                                Click="RemoveMemberButton_Click"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- Recipes page -->
+                    <ScrollViewer x:Name="RecipesPagePanel"
+                                  Visibility="Collapsed"
+                                  VerticalScrollBarVisibility="Auto">
+
+                        <StackPanel>
+
+                            <Button Content="Back to Main Page"
+                                    Width="160"
+                                    Height="35"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,0,0,15"
+                                    Background="#DDA15E"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Click="BackToMainPageButton_Click"/>
+
+                            <TextBlock Text="Recipes"
+                                       FontSize="28"
+                                       FontWeight="Bold"
+                                       Foreground="#2F3E34"
+                                       TextAlignment="Center"
+                                       Margin="0,0,0,20"/>
+
+                            <Border Background="#F4F1EA"
+                                    CornerRadius="12"
+                                    Padding="15"
+                                    Margin="0,0,0,20">
+
                                 <StackPanel>
-                                    <TextBlock Text="Add Member"
-                                           FontSize="20"
-                                           FontWeight="Bold"
-                                           Foreground="#386641"
-                                           Margin="0,0,0,10"/>
 
-                                    <TextBox x:Name="MemberNameTextBox"
-                                         Height="35"
-                                         Margin="0,5"
-                                         FontSize="15"
-                                         Text="Member name"/>
+                                    <TextBlock Text="Select recipe"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               Foreground="#386641"
+                                               Margin="0,0,0,8"/>
 
-                                    <TextBox x:Name="FavoriteFoodTextBox"
-                                         Height="35"
-                                         Margin="0,5"
-                                         FontSize="15"
-                                         Text="Favorite food"/>
+                                    <ComboBox ItemsSource="{Binding Recipes}"
+                                              SelectedItem="{Binding SelectedRecipe}"
+                                              Height="35"
+                                              FontSize="15"
+                                              Margin="0,0,0,15"/>
 
-                                    <Button Content="Add Member"
-                                        Height="40"
-                                        Margin="0,10,0,0"
-                                        Background="#588157"
-                                        Foreground="White"
-                                        FontWeight="Bold"
-                                        BorderThickness="0"
-                                        Click="AddMemberButton_Click"/>
+                                    <Button Content="Refresh Recipe Availability"
+                                            Height="38"
+                                            Background="#386641"
+                                            Foreground="White"
+                                            FontWeight="Bold"
+                                            BorderThickness="0"
+                                            Click="RefreshRecipeAvailabilityButton_Click"/>
+
+                                    <StackPanel x:Name="RecipeAvailabilityStackPanel"
+                                                Margin="0,15,0,0"/>
+
                                 </StackPanel>
                             </Border>
 
-                            <!-- Remove member box -->
-                            <Border Grid.Column="1"
-                                Background="#F4F1EA"
-                                CornerRadius="12"
-                                Padding="15"
-                                Margin="10,0,0,0">
+                            <Border Background="#E9F5DB"
+                                    CornerRadius="12"
+                                    Padding="15"
+                                    Margin="0,0,0,20">
+
                                 <StackPanel>
-                                    <TextBlock Text="Remove Member"
-                                           FontSize="20"
-                                           FontWeight="Bold"
-                                           Foreground="#9B2226"
-                                           Margin="0,0,0,10"/>
 
-                                    <TextBox x:Name="RemoveMemberNameTextBox"
-                                         Height="35"
-                                         Margin="0,5"
-                                         FontSize="15"
-                                         Text="Member name"/>
+                                    <TextBlock Text="Where should the prepared food be stored?"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               Foreground="#2F3E34"
+                                               Margin="0,0,0,10"/>
 
-                                    <Button Content="Remove Member"
-                                        Height="40"
-                                        Margin="0,10,0,0"
-                                        Background="#9B2226"
-                                        Foreground="White"
-                                        FontWeight="Bold"
-                                        BorderThickness="0"
-                                        Click="RemoveMemberButton_Click"/>
+                                    <RadioButton x:Name="StoreInFridgeRadioButton"
+                                                 Content="Fridge"
+                                                 GroupName="PreparedFoodStorage"
+                                                 IsChecked="True"
+                                                 FontSize="16"
+                                                 Margin="0,5"/>
+
+                                    <RadioButton x:Name="StoreInFreezerRadioButton"
+                                                 Content="Freezer"
+                                                 GroupName="PreparedFoodStorage"
+                                                 FontSize="16"
+                                                 Margin="0,5"/>
+
+                                    <RadioButton x:Name="StoreInPantryRadioButton"
+                                                 Content="Pantry"
+                                                 GroupName="PreparedFoodStorage"
+                                                 FontSize="16"
+                                                 Margin="0,5"/>
+
+                                    <Button Content="Make Recipe"
+                                            Height="40"
+                                            Margin="0,15,0,0"
+                                            Background="#6A994E"
+                                            Foreground="White"
+                                            FontWeight="Bold"
+                                            BorderThickness="0"
+                                            Click="MakeRecipeButton_Click"/>
+
                                 </StackPanel>
                             </Border>
-                        </Grid>
-                    </StackPanel>
+
+                            <Border Background="#F4F1EA"
+                                    CornerRadius="12"
+                                    Padding="15"
+                                    Margin="0,0,0,20">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Recipe management"
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               Foreground="#2F3E34"
+                                               Margin="0,0,0,10"/>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Content="Add Recipe"
+                                                Grid.Column="0"
+                                                Height="40"
+                                                Margin="0,0,10,0"
+                                                Background="#588157"
+                                                Foreground="White"
+                                                FontWeight="Bold"
+                                                BorderThickness="0"
+                                                Click="AddRecipeWindowButton_Click"/>
+
+                                        <Button Content="Modify Recipe"
+                                                Grid.Column="1"
+                                                Height="40"
+                                                Margin="10,0,0,0"
+                                                Background="#DDA15E"
+                                                Foreground="White"
+                                                FontWeight="Bold"
+                                                BorderThickness="0"
+                                                Click="ModifyRecipeWindowButton_Click"/>
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
+                    </ScrollViewer>
 
                 </Grid>
             </Border>
         </Grid>
     </Grid>
-
 </Window>
