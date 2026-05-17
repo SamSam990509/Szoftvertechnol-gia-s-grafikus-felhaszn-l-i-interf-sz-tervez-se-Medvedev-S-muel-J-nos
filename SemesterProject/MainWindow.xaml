@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SemesterProject"
         mc:Ignorable="d"
-        Title="Household Manager" Height="700" Width="1050">
+        Title="Household Manager" Height="740" Width="1100">
 
     <Grid Background="#F4F1EA">
         <Grid.ColumnDefinitions>
@@ -13,6 +13,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <!-- Left menu -->
         <Border Grid.Column="0"
                 Background="#2F3E34">
             <StackPanel Margin="15">
@@ -57,6 +58,7 @@
             </StackPanel>
         </Border>
 
+        <!-- Right content -->
         <Grid Grid.Column="1" Margin="25">
             <Border Background="White"
                     CornerRadius="18"
@@ -87,6 +89,7 @@
                                        TextWrapping="Wrap"
                                        Margin="0,0,0,20"/>
 
+                            <!-- Favorite food alert -->
                             <Border Background="#FFF3CD"
                                     CornerRadius="10"
                                     Padding="18"
@@ -109,25 +112,48 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Storage capacity on main page -->
                             <Border Background="#E9F5DB"
                                     CornerRadius="10"
                                     Padding="15"
                                     Margin="0,0,0,20">
 
                                 <StackPanel>
-                                    <TextBlock Text="Storage usage"
+                                    <TextBlock Text="Storage capacity"
                                                FontSize="20"
                                                FontWeight="Bold"
                                                Foreground="#2F3E34"
                                                TextAlignment="Center"
                                                Margin="0,0,0,10"/>
 
+                                    <TextBlock x:Name="MainFridgeProgressTextBlock"
+                                               FontSize="15"
+                                               FontWeight="Bold"/>
+                                    <ProgressBar x:Name="MainFridgeProgressBar"
+                                                 Height="18"
+                                                 Margin="0,5,0,10"/>
+
+                                    <TextBlock x:Name="MainFreezerProgressTextBlock"
+                                               FontSize="15"
+                                               FontWeight="Bold"/>
+                                    <ProgressBar x:Name="MainFreezerProgressBar"
+                                                 Height="18"
+                                                 Margin="0,5,0,10"/>
+
+                                    <TextBlock x:Name="MainPantryProgressTextBlock"
+                                               FontSize="15"
+                                               FontWeight="Bold"/>
+                                    <ProgressBar x:Name="MainPantryProgressBar"
+                                                 Height="18"
+                                                 Margin="0,5,0,10"/>
+
                                     <TextBlock x:Name="StorageUsageTextBlock"
                                                FontSize="16"
                                                Foreground="#2F3E34"
                                                TextWrapping="Wrap"
                                                TextAlignment="Center"
-                                               FontWeight="SemiBold"/>
+                                               FontWeight="SemiBold"
+                                               Margin="0,10,0,0"/>
                                 </StackPanel>
                             </Border>
 
@@ -140,7 +166,7 @@
                         </StackPanel>
                     </ScrollViewer>
 
-                    <!-- Fridge page -->
+                    <!-- Storage page -->
                     <ScrollViewer x:Name="FridgePagePanel"
                                   Visibility="Collapsed"
                                   VerticalScrollBarVisibility="Auto">
@@ -165,6 +191,87 @@
                                        TextAlignment="Center"
                                        Margin="0,0,0,20"/>
 
+                            <!-- Storage capacity on storage page -->
+                            <Border Background="#E9F5DB"
+                                    CornerRadius="10"
+                                    Padding="15"
+                                    Margin="0,0,0,20">
+
+                                <StackPanel>
+                                    <TextBlock Text="Storage capacity"
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               Foreground="#2F3E34"
+                                               Margin="0,0,0,10"/>
+
+                                    <TextBlock x:Name="StoragePageFridgeProgressTextBlock"
+                                               FontSize="15"
+                                               FontWeight="Bold"/>
+                                    <ProgressBar x:Name="StoragePageFridgeProgressBar"
+                                                 Height="18"
+                                                 Margin="0,5,0,10"/>
+
+                                    <TextBlock x:Name="StoragePageFreezerProgressTextBlock"
+                                               FontSize="15"
+                                               FontWeight="Bold"/>
+                                    <ProgressBar x:Name="StoragePageFreezerProgressBar"
+                                                 Height="18"
+                                                 Margin="0,5,0,10"/>
+
+                                    <TextBlock x:Name="StoragePagePantryProgressTextBlock"
+                                               FontSize="15"
+                                               FontWeight="Bold"/>
+                                    <ProgressBar x:Name="StoragePagePantryProgressBar"
+                                                 Height="18"
+                                                 Margin="0,5,0,10"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Storage filter -->
+                            <Border Background="#F4F1EA"
+                                    CornerRadius="10"
+                                    Padding="15"
+                                    Margin="0,0,0,10">
+
+                                <StackPanel>
+                                    <TextBlock Text="Filter by storage"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               Foreground="#386641"
+                                               Margin="0,0,0,8"/>
+
+                                    <TabControl x:Name="FoodStorageTabControl"
+                                                Height="28"
+                                                SelectionChanged="FoodStorageTabControl_SelectionChanged">
+                                        <TabItem Header="All"/>
+                                        <TabItem Header="Fridge"/>
+                                        <TabItem Header="Freezer"/>
+                                        <TabItem Header="Pantry"/>
+                                    </TabControl>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Search food -->
+                            <Border Background="#F4F1EA"
+                                    CornerRadius="10"
+                                    Padding="15"
+                                    Margin="0,0,0,15">
+
+                                <StackPanel>
+                                    <TextBlock Text="Search food"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               Foreground="#386641"
+                                               Margin="0,0,0,8"/>
+
+                                    <TextBox x:Name="FoodSearchTextBox"
+                                             Height="35"
+                                             FontSize="15"
+                                             TextChanged="FoodSearchTextBox_TextChanged"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Food list -->
                             <ListBox x:Name="FoodListBox"
                                      ItemsSource="{Binding FridgeFoods}"
                                      FontSize="16"
@@ -193,6 +300,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
+                                <!-- Add food -->
                                 <Border Grid.Column="0"
                                         Background="#F4F1EA"
                                         CornerRadius="12"
@@ -235,6 +343,7 @@
                                     </StackPanel>
                                 </Border>
 
+                                <!-- Remove food -->
                                 <Border Grid.Column="1"
                                         Background="#F4F1EA"
                                         CornerRadius="12"
@@ -321,6 +430,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
+                                <!-- Add member -->
                                 <Border Grid.Column="0"
                                         Background="#F4F1EA"
                                         CornerRadius="12"
@@ -357,6 +467,7 @@
                                     </StackPanel>
                                 </Border>
 
+                                <!-- Remove member -->
                                 <Border Grid.Column="1"
                                         Background="#F4F1EA"
                                         CornerRadius="12"
@@ -422,6 +533,7 @@
                                        TextAlignment="Center"
                                        Margin="0,0,0,20"/>
 
+                            <!-- Recipe availability -->
                             <Border Background="#F4F1EA"
                                     CornerRadius="12"
                                     Padding="15"
@@ -435,11 +547,26 @@
                                                Foreground="#386641"
                                                Margin="0,0,0,8"/>
 
-                                    <ComboBox ItemsSource="{Binding Recipes}"
+                                    <ComboBox x:Name="RecipeComboBox"
+                                              ItemsSource="{Binding Recipes}"
                                               SelectedItem="{Binding SelectedRecipe}"
                                               Height="35"
                                               FontSize="15"
-                                              Margin="0,0,0,15"/>
+                                              Margin="0,0,0,15"
+                                              SelectionChanged="RecipeComboBox_SelectionChanged"/>
+
+                                    <TextBlock x:Name="RecipeAvailabilityTextBlock"
+                                               Text="Recipe availability: 0%"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="#2F3E34"
+                                               Margin="0,0,0,5"/>
+
+                                    <ProgressBar x:Name="RecipeAvailabilityProgressBar"
+                                                 Height="20"
+                                                 Minimum="0"
+                                                 Maximum="100"
+                                                 Margin="0,0,0,15"/>
 
                                     <Button Content="Refresh Recipe Availability"
                                             Height="38"
@@ -455,6 +582,7 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Prepared food storage -->
                             <Border Background="#E9F5DB"
                                     CornerRadius="12"
                                     Padding="15"
@@ -499,6 +627,7 @@
                                 </StackPanel>
                             </Border>
 
+                            <!-- Recipe management -->
                             <Border Background="#F4F1EA"
                                     CornerRadius="12"
                                     Padding="15"

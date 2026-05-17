@@ -1,7 +1,10 @@
 ﻿using SemesterProject.Models;
 using SemesterProject.ViewModels;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace SemesterProject
@@ -17,7 +20,11 @@ namespace SemesterProject
             viewModel = new MainViewModel();
             DataContext = viewModel;
 
+            FoodStorageTabControl.SelectedIndex = 0;
+
             RefreshStorageUsage();
+            ApplyFoodSearch();
+            RefreshRecipeAvailability();
         }
 
         private void HideAllPages()
@@ -40,6 +47,7 @@ namespace SemesterProject
             HideAllPages();
             FridgePagePanel.Visibility = Visibility.Visible;
             RefreshStorageUsage();
+            ApplyFoodSearch();
         }
 
         private void HouseholdMembersButton_Click(object sender, RoutedEventArgs e)
@@ -59,6 +67,48 @@ namespace SemesterProject
         private void RefreshStorageUsage()
         {
             StorageUsageTextBlock.Text = viewModel.GetStorageUsageText();
+
+            RefreshOneStorageProgress(
+                "Fridge",
+                MainFridgeProgressBar,
+                MainFridgeProgressTextBlock);
+
+            RefreshOneStorageProgress(
+                "Freezer",
+                MainFreezerProgressBar,
+                MainFreezerProgressTextBlock);
+
+            RefreshOneStorageProgress(
+                "Pantry",
+                MainPantryProgressBar,
+                MainPantryProgressTextBlock);
+
+            RefreshOneStorageProgress(
+                "Fridge",
+                StoragePageFridgeProgressBar,
+                StoragePageFridgeProgressTextBlock);
+
+            RefreshOneStorageProgress(
+                "Freezer",
+                StoragePageFreezerProgressBar,
+                StoragePageFreezerProgressTextBlock);
+
+            RefreshOneStorageProgress(
+                "Pantry",
+                StoragePagePantryProgressBar,
+                StoragePagePantryProgressTextBlock);
+        }
+
+        private void RefreshOneStorageProgress(string storageName, ProgressBar progressBar, TextBlock textBlock)
+        {
+            int used = viewModel.GetStorageUsedAmount(storageName);
+            int capacity = viewModel.GetStorageCapacity(storageName);
+
+            progressBar.Minimum = 0;
+            progressBar.Maximum = capacity;
+            progressBar.Value = used;
+
+            textBlock.Text = $"{storageName}: {used} / {capacity} used";
         }
 
         private string GetSelectedPreparedFoodStorage()
@@ -74,6 +124,88 @@ namespace SemesterProject
             }
 
             return "Fridge";
+        }
+
+        private string GetSelectedStorageTab()
+        {
+            TabItem selectedTab = FoodStorageTabControl.SelectedItem as TabItem;
+
+            if (selectedTab == null || selectedTab.Header == null)
+            {
+                return "All";
+            }
+
+            return selectedTab.Header.ToString();
+        }
+
+        private void ApplyFoodSearch()
+        {
+            if (FoodListBox == null)
+            {
+                return;
+            }
+
+            ICollectionView view = CollectionViewSource.GetDefaultView(FoodListBox.ItemsSource);
+
+            if (view == null)
+            {
+                return;
+            }
+
+            view.Filter = item =>
+            {
+                FoodItem food = item as FoodItem;
+
+                if (food == null)
+                {
+                    return false;
+                }
+
+                string selectedStorage = GetSelectedStorageTab();
+
+                bool storageMatches = selectedStorage == "All" ||
+                                      food.StorageLocation.Equals(selectedStorage, StringComparison.OrdinalIgnoreCase);
+
+                if (!storageMatches)
+                {
+                    return false;
+                }
+
+                if (FoodSearchTextBox == null)
+                {
+                    return true;
+                }
+
+                string searchText = FoodSearchTextBox.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(searchText))
+                {
+                    return true;
+                }
+
+                return food.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                       || food.StorageLocation.Contains(searchText, StringComparison.OrdinalIgnoreCase);
+            };
+
+            view.Refresh();
+        }
+
+        private void FoodStorageTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source == FoodStorageTabControl)
+            {
+                ApplyFoodSearch();
+            }
+        }
+
+        private void FoodSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyFoodSearch();
+        }
+
+        private void RecipeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshRecipeAvailability();
         }
 
         private void FoodListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -125,6 +257,7 @@ namespace SemesterProject
             FoodNameTextBox.Text = "";
             FoodQuantityTextBox.Text = "";
 
+            ApplyFoodSearch();
             FoodListBox.Items.Refresh();
             RefreshStorageUsage();
             RefreshRecipeAvailability();
@@ -154,6 +287,7 @@ namespace SemesterProject
             RemoveFoodQuantityTextBox.Text = "Quantity to remove";
             FoodListBox.SelectedItem = null;
 
+            ApplyFoodSearch();
             FoodListBox.Items.Refresh();
             RefreshStorageUsage();
             RefreshRecipeAvailability();
@@ -236,6 +370,7 @@ namespace SemesterProject
 
             bool success = viewModel.MakeSelectedRecipe(storageLocation, out string message);
 
+            ApplyFoodSearch();
             FoodListBox.Items.Refresh();
             RefreshStorageUsage();
             RefreshRecipeAvailability();
@@ -273,12 +408,24 @@ namespace SemesterProject
 
         private void RefreshRecipeAvailability()
         {
+            if (RecipeAvailabilityStackPanel == null)
+            {
+                return;
+            }
+
             RecipeAvailabilityStackPanel.Children.Clear();
 
             if (viewModel.SelectedRecipe == null)
             {
+                RecipeAvailabilityTextBlock.Text = "No recipe selected.";
+                RecipeAvailabilityProgressBar.Value = 0;
                 return;
             }
+
+            int percentage = viewModel.GetRecipeAvailabilityPercentage();
+
+            RecipeAvailabilityTextBlock.Text = viewModel.GetRecipeAvailabilityText();
+            RecipeAvailabilityProgressBar.Value = percentage;
 
             foreach (RecipeIngredient ingredient in viewModel.SelectedRecipe.Ingredients)
             {

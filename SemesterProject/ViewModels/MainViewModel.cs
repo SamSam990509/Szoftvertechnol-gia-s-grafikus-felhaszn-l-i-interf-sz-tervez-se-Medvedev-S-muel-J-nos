@@ -129,14 +129,31 @@ namespace SemesterProject.ViewModels
 
             foreach (Storage storage in Storages)
             {
-                int usedAmount = FridgeFoods
-                    .Where(food => food.StorageLocation.Equals(storage.Name, StringComparison.OrdinalIgnoreCase))
-                    .Sum(food => food.Quantity);
-
+                int usedAmount = GetStorageUsedAmount(storage.Name);
                 result += $"{storage.Name}: {usedAmount} / {storage.Capacity} used\n";
             }
 
             return result.Trim();
+        }
+
+        public int GetStorageUsedAmount(string storageLocation)
+        {
+            return FridgeFoods
+                .Where(food => food.StorageLocation.Equals(storageLocation, StringComparison.OrdinalIgnoreCase))
+                .Sum(food => food.Quantity);
+        }
+
+        public int GetStorageCapacity(string storageLocation)
+        {
+            Storage? storage = Storages.FirstOrDefault(
+                item => item.Name.Equals(storageLocation, StringComparison.OrdinalIgnoreCase));
+
+            if (storage == null)
+            {
+                return 0;
+            }
+
+            return storage.Capacity;
         }
 
         public bool IsCorrectStorage(string foodName, string storageLocation, out string message)
@@ -167,9 +184,7 @@ namespace SemesterProject.ViewModels
                 return false;
             }
 
-            int usedAmount = FridgeFoods
-                .Where(food => food.StorageLocation.Equals(storageLocation, StringComparison.OrdinalIgnoreCase))
-                .Sum(food => food.Quantity);
+            int usedAmount = GetStorageUsedAmount(storageLocation);
 
             if (usedAmount + quantityToAdd > storage.Capacity)
             {
@@ -286,6 +301,40 @@ namespace SemesterProject.ViewModels
             }
 
             return "Not enough";
+        }
+
+        public int GetRecipeAvailabilityPercentage()
+        {
+            if (SelectedRecipe == null || SelectedRecipe.Ingredients.Count == 0)
+            {
+                return 0;
+            }
+
+            int enoughIngredients = 0;
+
+            foreach (RecipeIngredient ingredient in SelectedRecipe.Ingredients)
+            {
+                string status = GetIngredientStatus(ingredient);
+
+                if (status == "Enough")
+                {
+                    enoughIngredients++;
+                }
+            }
+
+            double percentage = (double)enoughIngredients / SelectedRecipe.Ingredients.Count * 100;
+            return (int)Math.Round(percentage);
+        }
+
+        public string GetRecipeAvailabilityText()
+        {
+            if (SelectedRecipe == null)
+            {
+                return "No recipe selected.";
+            }
+
+            int percentage = GetRecipeAvailabilityPercentage();
+            return $"{SelectedRecipe.Name} availability: {percentage}%";
         }
 
         public bool CanMakeSelectedRecipe(out string message)
